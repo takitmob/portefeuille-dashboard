@@ -45,12 +45,13 @@ osascript -l JavaScript /tmp/dash-run.js
 
 Résultat du 17/09/2026 : **223 tests, 0 échec**.
 
-## Confidentialité — limites honnêtes
+## Publication — PUBLIC (décision 2026-09-17)
 
-- **Repo privé** : les données du portefeuille ne sont jamais publiées (GitHub Pages gratuit exige un repo public → volontairement non utilisé).
-- **Accès multi-appareils** : le dashboard est ouvert en local sur chaque appareil (pull du repo privé ou synchronisation du coffre) ; la version affichée dépend du dernier pull sur l'appareil — pas de synchronisation temps réel.
+- **Public** : le dépôt et le dashboard sont publics — décision explicite de l'utilisateur (données non sensibles : uniquement états d'avancement, priorités, périodes des projets).
+- **Lien public** : <https://takitmob.github.io/portefeuille-dashboard/>
+- **Règle stricte** : ne **jamais** faire entrer de donnée sensible dans `data.js` (emails, finances, secrets, données personnelles) — ce fichier est visible par tout le monde.
 - **Pas d'édition depuis l'app** en v1 : les données se modifient dans `data.js` (traçable via git).
-- **Option lien web privé** (non activée) : Cloudflare Pages + Access (0 €) permettrait un URL protégé par connexion ; nécessite un compte Cloudflare gratuit. Non utilisé pour l'instant.
+- L'accès multi-appareils passe désormais par l'URL publique (plus besoin de pull local pour consulter) ; la version locale reste la source de vérité de développement.
 
 ## Identité git
 
