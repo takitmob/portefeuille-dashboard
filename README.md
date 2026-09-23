@@ -20,6 +20,10 @@ Ouvrir `index.html` directement (double-clic), ou via le web viewer d'Obsidian /
 
 Les données se modifient dans **`data.js`** (`window.DASH_DATA`), alimenté par l'orchestrateur à chaque revue de portefeuille.
 
+### Actualisation
+
+Un bouton **Actualiser** (en haut à droite) re-télécharge `data.js` depuis le dépôt GitHub (cache-buster `?v=timestamp`) et re-rend les vues **si de nouvelles données ont été publiées** ; sinon il affiche « Déjà à jour ». Aucun rechargement de page ni perte de position. En cas de connexion impossible, les données locales restent affichées.
+
 ## Technologies
 
 HTML + CSS + JS vanilla (zéro dépendance, zéro build) ; graphiques **SVG générés en JS maison** ; CSP stricte (`script-src 'self'`) ; interface en français ; responsive (mobile-first, sidebar off-canvas < 820 px).
@@ -52,6 +56,7 @@ Résultat du 17/09/2026 : **223 tests, 0 échec**.
 - **Règle stricte** : ne **jamais** faire entrer de donnée sensible dans `data.js` (emails, finances, secrets, données personnelles) — ce fichier est visible par tout le monde.
 - **Pas d'édition depuis l'app** en v1 : les données se modifient dans `data.js` (traçable via git).
 - L'accès multi-appareils passe désormais par l'URL publique (plus besoin de pull local pour consulter) ; la version locale reste la source de vérité de développement.
+- **Non-indexation** (décision 2026-09-22) : `<meta name="robots" content="noindex, nofollow">` + `robots.txt` (`Disallow: /`). La page reste accessible par URL directe, mais ne doit pas apparaître dans les moteurs de recherche.
 
 ## Identité git
 

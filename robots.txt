@@ -1,0 +1,6 @@
+# Portefeuille Dashboard — non-indexation (décision utilisateur 2026-09-22)
+# Le site reste accessible via son URL directe, mais ne doit pas apparaître
+# dans les résultats des moteurs de recherche.
+
+User-agent: *
+Disallow: /

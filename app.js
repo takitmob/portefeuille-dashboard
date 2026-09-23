@@ -516,13 +516,49 @@
     }).join('');
   }
 
+/* ---------- Actualisation (bouton : vérifie les nouveautés du repo) ---------- */
+  function majMetaFooter() {
+    $('vers').textContent = (data.meta && data.meta.version) + ' · maj ' + ((data.meta && data.meta.misAJour) || '—');
+    $('footNote').textContent = (data.meta && data.meta.titre) + ' — ' + ((data.meta && data.meta.note) || '');
+  }
+  function renduComplet() {
+    renderKPIs(); renderEvolution(); renderDonut(); renderBars();
+    renderDeadlines(); renderProjets(); renderTaches(); renderPriorites(); renderGantt();
+  }
+  function verifierMiseAJour() {
+    var btn = $('refreshBtn');
+    var statut = $('refreshStatus');
+    var avant = JSON.stringify(data);
+    var fini = function (texte) {
+      btn.disabled = false;
+      btn.classList.remove('spinning');
+      statut.textContent = texte || '';
+      if (texte) setTimeout(function () { statut.textContent = ''; }, 7000);
+    };
+    btn.disabled = true;
+    btn.classList.add('spinning');
+    statut.textContent = 'Vérification…';
+    var s = document.createElement('script');
+    s.src = 'data.js?v=' + Date.now(); // cache-buster : sert la dernière version publiée du repo
+    s.onload = function () {
+      var apres = JSON.stringify(window.DASH_DATA || {});
+      if (apres === avant) { fini('Déjà à jour'); return; }
+      data = window.DASH_DATA;
+      projets = (data.projets || []).slice();
+      majMetaFooter();
+      renduComplet();
+      fini('Données actualisées — ' + ((data.meta && data.meta.misAJour) || 'dernière version'));
+    };
+    s.onerror = function () { fini('Connexion impossible — données locales'); };
+    document.head.appendChild(s);
+  }
+
   /* ---------- Init ---------- */
   function init() {
     $('topDateTxt').textContent = DASH.dateFr(DASH.aujourdhui());
-    $('vers').textContent = (data.meta && data.meta.version) + ' · maj ' + ((data.meta && data.meta.misAJour) || '—');
-    $('footNote').textContent = (data.meta && data.meta.titre) + ' — ' + ((data.meta && data.meta.note) || '');
-    $('footSource').textContent = 'https://github.com/takitmob/portefeuille-dashboard (privé)';
+    majMetaFooter();
     setupNav();
+    $('refreshBtn').addEventListener('click', verifierMiseAJour);
     renderKPIs();
     renderEvolution();
     renderDonut();
